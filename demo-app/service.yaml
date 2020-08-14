@@ -5,6 +5,7 @@ metadata:
     app: demo-app
     app.kubernetes.io/instance: demo-app
   name: demo-app
+  namespace: demo-app
 spec:
   ports:
   - port: 80
