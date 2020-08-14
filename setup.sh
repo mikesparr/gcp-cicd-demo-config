@@ -106,3 +106,11 @@ locations=("central")
 for loc in ${locations[@]}; do
     create_cluster $loc
 done
+
+# add kong
+echo "Adding Kong Ingress install ..."
+kubectl apply -f https://bit.ly/k4k8s --dry-run=client -o yaml > kong/01-install.yaml
+
+# add cert-manager
+echo "Adding Cert Manager install ..."
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.yaml --dry-run=client -o yaml > cert-manager/01-install.yaml
