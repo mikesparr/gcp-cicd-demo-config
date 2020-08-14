@@ -435,8 +435,6 @@ items:
       kind: TCPIngress
       plural: tcpingresses
     scope: Namespaced
-    subresources:
-      status: {}
     validation:
       openAPIV3Schema:
         properties:
@@ -481,12 +479,6 @@ items:
           status:
             type: object
     version: v1beta1
-  status:
-    acceptedNames:
-      kind: ""
-      plural: ""
-    conditions: []
-    storedVersions: []
 - apiVersion: v1
   kind: ServiceAccount
   metadata:
