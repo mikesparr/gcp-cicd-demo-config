@@ -4,5 +4,12 @@ monitoring of specific folders and deploying those configs or workloads
 to Kubernetes clusters.
 
 # Structure
-- `/apps/` configuration for apps that Argo CD will point to
-- `/config/` default k8s configuration
+- `app-of-apps.yaml` bootstrapped on k8s server and points to `/apps/` folder
+- `/apps/` configuration for app folders that Argo CD will point to
+- `/kong/` Kong ingress controller manifests
+- `/cert-manager/` Cert Manager manifests
+- `/demo-app/` Demo App manifests
+  - Namespace
+  - Ingress
+  - Service
+  - Deployment
