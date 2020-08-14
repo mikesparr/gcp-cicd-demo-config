@@ -107,9 +107,6 @@ for loc in ${locations[@]}; do
     create_cluster $loc
 done
 
-# create static IP address
-gcloud compute addresses create demo-app-static-ip --global 
-
 # add kong
 echo "Adding Kong Ingress install ..."
 kubectl apply -f https://bit.ly/k4k8s --dry-run=client -o yaml > kong/01-install.yaml
