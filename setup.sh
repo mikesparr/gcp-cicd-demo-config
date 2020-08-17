@@ -53,6 +53,23 @@ install_argo_cd () {
     kubectl apply -f app-of-apps.yaml
 }
 
+# install cert-manager CRDs (temp fix)
+# https://cert-manager.io/docs/installation/upgrading/upgrading-0.15-0.16/#issue-with-older-versions-of-kubectl
+install_cert_manager () {
+    echo "Installing Cert Manager ..."
+
+    kubectl create namespace cert-manager
+    helm repo add jetstack https://charts.jetstack.io
+    helm repo update
+    # install CRDs
+    kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.16.1/cert-manager.crds.yaml
+    # helm@v3 install
+    helm install \
+    cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --version v0.16.1
+}
+
 create_cluster () {
     CLUSTER_NAME=$1
 
@@ -96,6 +113,10 @@ create_cluster () {
     # install argo cd
     echo "Installing Argo CD ..."
     install_argo_cd
+
+    # install cert-manager
+    echo "Installing Cert Manager ..."
+    install_cert_manager
 
     echo "Cluster $CLUSTER_NAME created in zone $ZONE"
 }
