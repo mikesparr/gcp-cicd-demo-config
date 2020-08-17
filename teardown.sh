@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # teardown clusters
-gcloud container clusters delete west --zone us-central1-a
+gcloud container clusters delete central --zone us-central1-a
 
 # delete container images
 
