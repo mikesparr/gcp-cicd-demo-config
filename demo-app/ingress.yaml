@@ -10,7 +10,7 @@ metadata:
     #konghq.com/plugins: request-id
 spec:
   tls:
-  - secretName: demo-app-msparr-com
+  - secretName: tls-demo-app-msparr-com
     hosts:
       - demo-app.msparr.com
   rules:
