@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: demo-app-msparr-com
+  name: demo-app-msparr-com2
   namespace: demo-app
   annotations:
     kubernetes.io/ingress.class: "kong"
