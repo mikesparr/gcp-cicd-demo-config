@@ -13,7 +13,8 @@ export CLUSTER_VERSION="1.16.13-gke.1"
 gcloud services enable cloudbuild.googleapis.com \
     container.googleapis.com \
     storage.googleapis.com \
-    containerregistry.googleapis.com
+    containerregistry.googleapis.com \
+    secretmanager.googleapis.com
 
 # authorize cloud build to connect to demo app Github repo (not config repo)
 # https://console.cloud.google.com/cloud-build/triggers/connect?project=${PROJECT_ID}&provider=github_app
