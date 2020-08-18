@@ -4,7 +4,7 @@ metadata:
   name: demo-app-msparr-com
   namespace: demo-app
   annotations:
-    #kubernetes.io/ingress.class: "kong"
+    kubernetes.io/ingress.class: "kong"
     kubernetes.io/tls-acme: "true"
     cert-manager.io/cluster-issuer: letsencrypt-prod
     #konghq.com/plugins: request-id
