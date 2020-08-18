@@ -16,6 +16,6 @@ spec:
         app: demo-app
     spec:
       containers:
-      - image: gcr.io/devops-pipeline-demo/cicd-demo-app:d21d9b6
-        name: cicd-demo-app
+      - image: gcr.io/devops-pipeline-demo/demo-app:d21d9b6
+        name: demo-app
         resources: {}
