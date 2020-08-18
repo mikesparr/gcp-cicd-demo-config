@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+- ../base
+
+commonLabels:
+  env: develop
+
+commonAnnotations:
+  support: support@doit-intl.com
+
+namespace: demo-app-prod
+
+nameSuffix: -prod
+
+images:
+- name: gcr.io/devops-pipeline-demo/demo-app
+  newTag: latest

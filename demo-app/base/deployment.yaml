@@ -16,6 +16,6 @@ spec:
         app: demo-app
     spec:
       containers:
-      - image: gcr.io/devops-pipeline-demo/demo-app:d21d9b6
+      - image: gcr.io/devops-pipeline-demo/demo-app:latest
         name: demo-app
         resources: {}
