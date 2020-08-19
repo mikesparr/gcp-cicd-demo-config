@@ -4,6 +4,9 @@ kind: Kustomization
 bases:
 - ../../base
 
+patchesStrategicMerge:
+- ingress-host.yaml
+
 commonLabels:
   env: develop
 
