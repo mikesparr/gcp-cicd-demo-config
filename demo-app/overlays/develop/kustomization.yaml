@@ -19,5 +19,5 @@ nameSuffix: -dev
 
 images:
 - name: gcr.io/devops-pipeline-demo/demo-app
-  newTag: 7b72cc6
+  newTag: 7333a1e
   
