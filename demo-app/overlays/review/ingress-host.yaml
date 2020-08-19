@@ -1,0 +1,12 @@
+---
+apiVersion: extensions/v1beta1 # networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: demo-app-msparr-com
+spec:
+#  tls:
+#  - secretName: tls-demo-app-msparr-com
+#    hosts:
+#      - demo-app.msparr.com
+  rules:
+  - host: demo-app-review.msparr.com

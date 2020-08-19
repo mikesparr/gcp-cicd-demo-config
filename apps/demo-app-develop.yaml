@@ -11,7 +11,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: demo-app/develop
+    path: demo-app/overlays/develop
     repoURL: https://github.com/mikesparr/gcp-cicd-demo-config
     targetRevision: HEAD
   syncPolicy:
