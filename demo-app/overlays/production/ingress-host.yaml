@@ -10,3 +10,9 @@ spec:
 #      - demo-app.msparr.com
   rules:
   - host: demo-app.msparr.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: demo-app
+          servicePort: 80

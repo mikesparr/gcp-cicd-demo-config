@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  annotations:
+    support: support@doit-intl.com
+  labels:
+    env: develop
+  name: demo-app-review
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    support: support@doit-intl.com
+  labels:
+    app: demo-app
+    app.kubernetes.io/instance: demo-app
+    env: develop
+  name: demo-app-review
+  namespace: demo-app-review
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: demo-app
+    env: develop
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    support: support@doit-intl.com
+  labels:
+    app: demo-app
+    env: develop
+  name: demo-app-review
+  namespace: demo-app-review
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app
+      env: develop
+  template:
+    metadata:
+      annotations:
+        support: support@doit-intl.com
+      labels:
+        app: demo-app
+        env: develop
+    spec:
+      containers:
+      - image: gcr.io/devops-pipeline-demo/demo-app:latest
+        name: demo-app
+        resources: {}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    support: support@doit-intl.com
+  labels:
+    env: develop
+  name: demo-app-msparr-com-review
+  namespace: demo-app-review
+spec:
+  rules:
+  - host: demo-app.msparr.com
+    http:
+      paths:
+      - backend:
+          serviceName: demo-app-review
+          servicePort: 80
+        path: /
