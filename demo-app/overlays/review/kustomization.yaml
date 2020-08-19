@@ -19,4 +19,4 @@ nameSuffix: -review
 
 images:
 - name: gcr.io/devops-pipeline-demo/demo-app
-  newTag: v3
+  newTag: 5af4287
