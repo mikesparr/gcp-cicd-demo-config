@@ -10,4 +10,3 @@ resources:
 - service.yaml
 - namespace.yaml
 - ingress.yaml
-- redis.yaml
