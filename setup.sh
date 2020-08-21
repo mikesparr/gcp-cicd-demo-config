@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-source .env # see README
-
+source .env
 # export PROJECT_ID=<from .env>
 # export AUTH_NETWORK=<from .env>
 
 export GCP_REGION=us-central1
 export GCP_ZONE=us-central1-b
+export DNS_ZONE_NAME=msparr-com
 export CLUSTER_VERSION="1.16.13-gke.1"
 
 # enable apis
@@ -14,7 +14,8 @@ gcloud services enable cloudbuild.googleapis.com \
     container.googleapis.com \
     storage.googleapis.com \
     containerregistry.googleapis.com \
-    secretmanager.googleapis.com
+    secretmanager.googleapis.com \
+    dns.googleapis.com
 
 # authorize cloud build to connect to demo app Github repo (not config repo)
 # https://console.cloud.google.com/cloud-build/triggers/connect?project=${PROJECT_ID}&provider=github_app
@@ -54,8 +55,6 @@ install_argo_cd () {
     kubectl apply -f app-of-apps.yaml
 }
 
-# install cert-manager CRDs (temp fix)
-# https://cert-manager.io/docs/installation/upgrading/upgrading-0.15-0.16/#issue-with-older-versions-of-kubectl
 install_cert_manager () {
     echo "Installing Cert Manager ..."
 
@@ -128,3 +127,49 @@ locations=("central")
 for loc in ${locations[@]}; do
     create_cluster $loc
 done
+
+
+
+
+##################################################################################
+# DNS STUFF (after everything is up and Argo CD deploys Kong)
+##################################################################################
+
+source .env
+# export PROJECT_ID=<from .env>
+# export AUTH_NETWORK=<from .env>
+export DNS_ZONE_NAME=msparr-com
+
+# create dns zone (you will need to point nameservers to Cloud DNS)
+gcloud beta dns --project=$PROJECT_ID managed-zones create $DNS_ZONE_NAME \
+    --description= \
+    --dns-name=msparr.com.
+
+# fetch the public IP address of the kong-proxy TCP lb
+export KONG_PROXY_IP=$(kubectl get svc/kong-proxy -n kong -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "Kong proxy IP is ${KONG_PROXY_IP}"
+
+# create dns record set for Kong proxy (A record)
+gcloud dns --project=$PROJECT_ID record-sets transaction start --zone=$DNS_ZONE_NAME
+gcloud dns --project=$PROJECT_ID record-sets transaction add $KONG_PROXY_IP \
+    --name=kong-proxy.msparr.com. \
+    --ttl=300 \
+    --type=A \
+    --zone=$DNS_ZONE_NAME
+gcloud dns --project=$PROJECT_ID record-sets transaction execute --zone=$DNS_ZONE_NAME
+
+# confirm setup as desired
+gcloud dns managed-zones list
+gcloud dns record-sets list --zone=$DNS_ZONE_NAME
+
+###########################
+# CI server commands
+###########################
+
+gcloud dns --project=devops-pipeline-demo record-sets transaction start --zone=msparr-com
+gcloud dns --project=devops-pipeline-demo record-sets transaction add kong-proxy.msparr.com. \
+    --name=demo-app.msparr.com. \
+    --ttl=300 \
+    --type=CNAME \
+    --zone=msparr-com
+gcloud dns --project=devops-pipeline-demo record-sets transaction execute --zone=msparr-com
