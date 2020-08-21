@@ -5,11 +5,6 @@ images:
 - name: gcr.io/devops-pipeline-demo/demo-app
   newTag: latest
 
-configMapGenerator:
-- name: example-redis-config
-  files:
-  - redis-config
-
 resources:
 - deployment.yaml
 - service.yaml
